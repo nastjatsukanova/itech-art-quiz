@@ -1,0 +1,21 @@
+.welcom_text {
+    align-self: center;
+    margin-top: 30px;
+    margin-bottom: 25px;
+    font-family: Montserrat;
+    letter-spacing: 0.08em;
+    line-height: 25px;
+    font-weight: 600;
+}
+
+.welcom_block {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin: 0 auto;
+    border: 1px solid #6686ff;
+    padding: 20px;
+    background-color: #f4f7ff;
+    border-radius: 4px;
+    margin-top: 20px;
+}

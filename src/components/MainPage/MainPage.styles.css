@@ -1,0 +1,14 @@
+.main_page {
+    display: flex;
+    flex-direction: column;
+}
+
+.link {
+    cursor: pointer;
+    font-family: Montserrat;
+    font-weight: 400;
+}
+
+.link:hover {
+    filter: invert(0.4) sepia(1) saturate(20) hue-rotate(187.2deg) brightness(1) drop-shadow(0 0 0.5rem #5E81FE);
+}

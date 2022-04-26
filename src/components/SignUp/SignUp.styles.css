@@ -1,0 +1,14 @@
+.sign_up {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.signup_label {
+    font-size: 15px;
+    font-family: Montserrat;
+    font-weight: 600;
+    align-self: flex-start;
+    margin-bottom: 5px;
+}

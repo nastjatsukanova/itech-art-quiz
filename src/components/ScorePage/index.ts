@@ -1,0 +1,1 @@
+import { ScorePage } from "./ScorePage";
