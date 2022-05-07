@@ -2,6 +2,7 @@ import { child, get, getDatabase, ref, set } from "firebase/database";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../routes/routes";
 import { Button } from "../Controls/Button";
 import { saveQuestions, addUser } from "../store/actions";
 import { IState } from "../store/reducers/rootReducer";
@@ -33,9 +34,9 @@ export const ScorePage = () => {
         dispatch(addUser(usersScore));
     }, []);
 
-    const turnToQuiz = () => navigate("/quiz");
+    const turnToQuiz = ():void => navigate(ROUTES.QUIZ_PAGE);
 
-    const exit = () => navigate("/");
+    const turnToMainPage = ():void => navigate(ROUTES.MAIN_PAGE);
 
     useEffect(() => {
         const dbRef = ref(getDatabase());
@@ -60,7 +61,7 @@ export const ScorePage = () => {
                 : <div className="result_text">Неплохой результат! Можешь пройти квиз заново, чтобы повысить свой счет!</div>}
             <div className="btn_block">
                 <Button title="Пройти заново" onClick={turnToQuiz} className="btn"/>
-                <Button title="Выйти" onClick={exit} className="btn"/>
+                <Button title="Выйти" onClick={turnToMainPage} className="btn"/>
             </div>
         </div>
     );

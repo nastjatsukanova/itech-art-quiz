@@ -1,1 +1,1 @@
-import { AdminPanel } from "./AdminPanel";
+export { AdminPanel } from "./AdminPanel";

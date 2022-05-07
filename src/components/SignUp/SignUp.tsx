@@ -3,7 +3,6 @@ import { Button } from "../Controls/Button";
 import React, { useState, useEffect } from "react";
 import "./SignUp.styles.css";
 import { Link, useNavigate } from "react-router-dom";
-import { MainPage } from "../MainPage/MainPage";
 import { ROUTES } from "../../routes/routes";
 import { useSelector, useDispatch } from "react-redux";
 import { IState } from "../store/reducers/rootReducer";
@@ -11,17 +10,17 @@ import { addUser, changeUserEmail, changePassword, changeVerificationPassword } 
 import { signUp } from "../../utils/utils";
 import { getDatabase, ref, set } from "firebase/database";
 
-interface IProps {
+interface ISignUpProps {
     title?: string;
 }
 
-export const SignUp: React.FC<IProps> = () => {
+export const SignUp: React.FC<ISignUpProps> = () => {
     const userEmail = useSelector((state:IState) => state.userEmail);
     const password = useSelector((state:IState) => state.password);
     const users = useSelector((state:IState) => state.users);
     const verificationPassword = useSelector((state:IState) => state.verificationPassword);
     const db = getDatabase();
-    const [isSigned, setIsSigned] = useState(false);
+    const [isSigned, setIsSigned] = useState<boolean>(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -37,7 +36,7 @@ export const SignUp: React.FC<IProps> = () => {
         dispatch(changeVerificationPassword(e.target.value));
     };
 
-    const signUpHandler = () => {
+    const signUpHandler = ():void => {
         if (password === verificationPassword) {
             const user = {
                 email: userEmail,
@@ -61,7 +60,7 @@ export const SignUp: React.FC<IProps> = () => {
 
     useEffect(() => {
         if (isSigned) {
-            return navigate("/welcom");
+            navigate(ROUTES.WELCOME_PAGE);
         }
     }, [isSigned]);
 
@@ -80,9 +79,7 @@ export const SignUp: React.FC<IProps> = () => {
             />
             <Button onClick={signUpHandler} title="Зарегестрироваться" className="btn" />
             <Link
-                to={{
-                    pathname: ROUTES.MAIN_PAGE,
-                }}
+                to={{ pathname: ROUTES.MAIN_PAGE }}
                 className="link"
             >
                 У меня есть профиль

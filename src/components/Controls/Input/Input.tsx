@@ -1,6 +1,6 @@
 import React from "react";
 
-interface IProps {
+interface IInputProps {
     placeholder?: string;
     onChange?(e: React.ChangeEvent<HTMLInputElement>): void;
     type: string;
@@ -13,7 +13,7 @@ interface IProps {
     className?:string
 }
 
-export const Input: React.FC<IProps> = ({ placeholder, type, value, onChange, name, id, disabled, className, checked }) => {
+export const Input: React.FC<IInputProps> = ({ placeholder, type, value, onChange, name, id, disabled, className, checked }) => {
     return <input
         placeholder={placeholder}
         type={type} value={value}

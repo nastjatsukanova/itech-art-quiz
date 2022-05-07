@@ -10,15 +10,15 @@ import { child, get, getDatabase, ref } from "firebase/database";
 import "./SignIn.styles.css";
 import { ROUTES } from "../../routes/routes";
 
-export interface IProps {
+export interface ISignInProps {
     title: string;
 }
 
-export const SignIn: React.FC<IProps> = ({ title }) => {
+export const SignIn: React.FC<ISignInProps> = ({ title }) => {
     const userEmail = useSelector((state: IState) => state.userEmail);
     const password = useSelector((state: IState) => state.password);
     const dispatch = useDispatch();
-    const [isSigned, setIsSigned] = useState(false);
+    const [isSigned, setIsSigned] = useState<boolean>(false);
     const navigate = useNavigate();
 
     const changeUserEmailHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -45,7 +45,7 @@ export const SignIn: React.FC<IProps> = ({ title }) => {
             });
     }, []);
 
-    const signInHandler = () => {
+    const signInHandler = ():void => {
         signIn(userEmail, password)
             .then(() => setIsSigned(true))
             .catch((error) => {
@@ -55,7 +55,7 @@ export const SignIn: React.FC<IProps> = ({ title }) => {
 
     useEffect(() => {
         if (isSigned) {
-            return navigate(ROUTES.WELCOM_PAGE);
+            navigate(ROUTES.WELCOME_PAGE);
         }
     }, [isSigned]);
 

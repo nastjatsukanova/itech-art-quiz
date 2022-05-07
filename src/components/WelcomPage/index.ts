@@ -1,1 +1,0 @@
-import { WelcomPage } from "./WelcomPage";

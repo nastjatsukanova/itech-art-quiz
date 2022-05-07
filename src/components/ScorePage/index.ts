@@ -1,1 +1,1 @@
-import { ScorePage } from "./ScorePage";
+export { ScorePage } from "./ScorePage";

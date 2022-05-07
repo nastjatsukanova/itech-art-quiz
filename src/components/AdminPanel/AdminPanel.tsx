@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "../Controls/Button";
-import { Input } from "../Controls/Input";
-import { generateID } from "../../utils/utils";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { IState } from "../store/reducers/rootReducer";
 import { getDatabase, ref, set, get, child } from "firebase/database";
-import { saveQuestions } from "../store/actions";
-import { User } from "../Controls/User/User";
-import { addUser } from "../store/actions/addUser";
-import { QuizItem } from "../QuizItem/QuizItem";
-import { useNavigate } from "react-router-dom";
+import { Button } from "../Controls/Button";
+import { Input } from "../Controls/Input";
+import { generateID } from "../../utils/utils";
+import { User } from "../Controls/User";
+import { addUser, saveQuestions } from "../store/actions";
+import { QuizItem } from "../QuizItem";
 import "./AdminPanel.styles.css";
 import { ROUTES } from "../../routes/routes";
 
@@ -19,11 +18,11 @@ export const AdminPanel = () => {
     const users = useSelector((state:IState) => state.users);
     const questions = useSelector((state:IState) => state.questions);
     const userEmail = useSelector((state:IState) => state.userEmail);
-    const [questionText, setQuestionText] = useState("");
-    const [answer1, setAnswer1] = useState("");
-    const [answer2, setAnswer2] = useState("");
-    const [answer3, setAnswer3] = useState("");
-    const [rightAnswerId, setRightAnswerId] = useState("");
+    const [questionText, setQuestionText] = useState<string>("");
+    const [answer1, setAnswer1] = useState<string>("");
+    const [answer2, setAnswer2] = useState<string>("");
+    const [answer3, setAnswer3] = useState<string>("");
+    const [rightAnswerId, setRightAnswerId] = useState<string>("");
     const db = getDatabase();
 
     useEffect(() => {
@@ -67,7 +66,7 @@ export const AdminPanel = () => {
 
     const changeRightAnswerId = (e: React.ChangeEvent<HTMLInputElement>): void => setRightAnswerId(e.target.value);
 
-    const saveOneQuestion = () => {
+    const saveOneQuestionHandler = (): void => {
         const question = {
             id: generateID(),
             text: questionText,
@@ -88,7 +87,7 @@ export const AdminPanel = () => {
             rightAnswerId: `${questions.length}${rightAnswerId}`
         };
         if (questionText.trim() && answer1.trim() && answer2.trim() && answer3.trim() && rightAnswerId.trim()) {
-            (set(ref(db, "questions/"), question));
+            (set(ref(db, `questions/${questions.length}`), question));
             dispatch(saveQuestions([...questions, question]));
             setQuestionText("");
             setAnswer1("");
@@ -101,13 +100,13 @@ export const AdminPanel = () => {
         }
     };
 
-    const deleteQuestion = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    const deleteQuestionHandler = (e: React.MouseEvent<HTMLButtonElement>): void => {
         const deleted = questions.filter(item => Number(item.id) !== Number(e.currentTarget.id));
         (set(ref(db, "questions/"), [...deleted]));
         dispatch(saveQuestions(deleted));
     };
 
-    const editQuestion = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const editQuestionHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const inputValue = e.target.value;
         const inputId = e.target.id;
         const changed = questions.map(item => {
@@ -120,14 +119,15 @@ export const AdminPanel = () => {
         dispatch(saveQuestions(changed));
     };
 
-    const editAnswer = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const editAnswerHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const inputValue = e.target.value;
         const inputId = e.target.id;
+        console.log(e.target.value);
         if (inputValue.trim()) {
             const changedAnswer = questions.map(item => {
                 item.answers.map(answer => {
                     if (Number(answer.id) === Number(inputId)) {
-                        return { ...answer, text: inputValue };
+                        return answer.text = inputValue;
                     }
                     return answer;
                 });
@@ -140,20 +140,20 @@ export const AdminPanel = () => {
         }
     };
 
-    const turnToQuiz = () => navigate(ROUTES.QUIZ_PAGE);
+    const turnToQuiz = ():void => navigate(ROUTES.QUIZ_PAGE);
 
-    const exit = () => navigate(ROUTES.MAIN_PAGE);
+    const turnToMainPage = ():void => navigate(ROUTES.MAIN_PAGE);
 
-    if (userEmail !== "asd@mail.ru") {
-        return (
-            <div className="error_massage">Not allowed!
-                <div className="admin_buttons">
-                    <Button title="Вернуться к квизу" onClick={turnToQuiz} className="btn"/>
-                    <Button title="Выйти" onClick={exit} className="btn" />
-                </div>
-            </div>
-        );
-    }
+    // if (userEmail !== "asd@mail.ru") {
+    //     return (
+    //         <div className="error_massage">Not allowed!
+    //             <div className="admin_buttons">
+    //                 <Button title="Вернуться к квизу" onClick={turnToQuiz} className="btn"/>
+    //                 <Button title="Выйти" onClick={turnToMainPage} className="btn" />
+    //             </div>
+    //         </div>
+    //     );
+    // }
 
     return (
         <div className="admin_block">
@@ -164,7 +164,7 @@ export const AdminPanel = () => {
                     <Input type="text" placeholder="Вариант ответа 2" onChange={changeAnswer2} value={answer2} className="admin_input"/>
                     <Input type="text" placeholder="Вариант ответа 3" onChange={changeAnswer3} value={answer3} className="admin_input"/>
                     <Input type="text" placeholder="Номер правильного варианта ответа" onChange={changeRightAnswerId} value={rightAnswerId} className="admin_input"/>
-                    <Button title="Сохранить" onClick={saveOneQuestion} className="btn"/>
+                    <Button title="Сохранить" onClick={saveOneQuestionHandler} className="btn"/>
                     <div className="users"> Список пользователей и их результаты
                         {users && users.map(item => {
                             return (
@@ -188,10 +188,10 @@ export const AdminPanel = () => {
                                     answers={item.answers}
                                     id={item.id}
                                     type="text"
-                                    editQuestion={editQuestion}
-                                    editAnswer={editAnswer}
+                                    editQuestionHandler={editQuestionHandler}
+                                    editAnswerHandler={editAnswerHandler}
                                 />
-                                <Button title="Удалить" onClick={deleteQuestion} id={item.id} className="admin_delete"/>
+                                <Button title="Удалить" onClick={deleteQuestionHandler} id={item.id} className="admin_delete"/>
                             </div>
                         );
                     })}
@@ -199,8 +199,8 @@ export const AdminPanel = () => {
             </div>
             <div className="admin_buttons">
                 <Button title="Вернуться к квизу" onClick={turnToQuiz} className="btn"/>
-                <Button title="Выйти" onClick={exit} className="btn"/>
+                <Button title="Выйти" onClick={turnToMainPage} className="btn"/>
             </div>
         </div>
     );
-};
+}

@@ -3,11 +3,10 @@ import React, { useEffect, useState } from "react";
 import { Button } from "../Controls/Button";
 import { IState } from "../store/reducers/rootReducer";
 import { useDispatch, useSelector } from "react-redux";
-import { saveQuestions } from "../store/actions";
+import { saveQuestions, createRadioList } from "../store/actions";
 import { QuizItem } from "../QuizItem/QuizItem";
 import { useNavigate } from "react-router-dom";
 import "./QuizPage.styles.css";
-import { createRadioList } from "../store/actions/createRadioList";
 import { ROUTES } from "../../routes/routes";
 
 export const QuizPage = () => {
@@ -15,8 +14,8 @@ export const QuizPage = () => {
     const questions = useSelector((state:IState) => state.questions);
     const userEmail = useSelector((state:IState) => state.userEmail);
     const navigate = useNavigate();
-    const [isAnswered, setIsAnswered] = useState(false);
-    const [isAdmin, setIsAdmin] = useState(false);
+    const [isAnswered, setIsAnswered] = useState<boolean>(false);
+    const [isAdmin, setIsAdmin] = useState<boolean>(false);
     const radioList = document.querySelectorAll("input[type=radio]");
     dispatch(createRadioList(radioList));
 
@@ -33,28 +32,34 @@ export const QuizPage = () => {
         });
     }, []);
 
-    const turnToAdmin = () => {
+    const turnToAdmin = ():void => {
         if (userEmail === "asd@mail.ru") {
             setIsAdmin(true);
         }
     };
-    const turnToScore = () => setIsAnswered(true);
+    
+    const turnToScore = ():void => setIsAnswered(true);
 
     useEffect(() => {
         if (isAdmin) {
-            return navigate(ROUTES.ADMIN_PANEL);
+             navigate(ROUTES.ADMIN_PANEL);
         }
     }, [isAdmin]);
 
     useEffect(() => {
         if (isAnswered) {
-            return navigate(ROUTES.SCORE_PAGE);
+            navigate(ROUTES.SCORE_PAGE);
         }
     }, [isAnswered]);
 
+    const turnToMainPage = ():void => navigate(ROUTES.MAIN_PAGE);
+
     return (
         <div className="quiz_page">
-            {userEmail === "asd@mail.ru" && <Button title="Админ Панель" onClick={turnToAdmin} className="btn" />}
+            <div className="admin_buttons">
+                {userEmail === "asd@mail.ru" && <Button title="Админ Панель" onClick={turnToAdmin} className="btn" />}
+                <Button title="Выйти" onClick={turnToMainPage} className="btn"/>
+            </div>
             <div className="quiz">
                 {questions && questions.map(item => {
                     return (
