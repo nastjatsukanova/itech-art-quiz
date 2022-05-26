@@ -7,7 +7,6 @@ interface IInputProps {
     value?: string;
     name?: string;
     checked?: boolean;
-    onClick?(e: React.ChangeEvent<HTMLInputElement>): void;
     id?:string;
     disabled?:boolean;
     className?:string
@@ -16,7 +15,8 @@ interface IInputProps {
 export const Input: React.FC<IInputProps> = ({ placeholder, type, value, onChange, name, id, disabled, className, checked }) => {
     return <input
         placeholder={placeholder}
-        type={type} value={value}
+        type={type} 
+        value={value}
         onChange={onChange}
         name={name}
         id={id}

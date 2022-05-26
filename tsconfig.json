@@ -19,6 +19,7 @@
     "noEmit": true,
     "jsx": "preserve"
   },
-  "include": ["src/**/*.ts", "src/**/*.js", "test/**/*.ts"]
+  "include": ["src/**/*.ts", "src/**/*.js", "test/**/*.ts"],
+  "plugins": ["jsx-a11y"]
 }
 //   "exclude": "./tsconfig.json",

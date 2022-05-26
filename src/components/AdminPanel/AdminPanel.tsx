@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { IState } from "../store/reducers/rootReducer";
-import { getDatabase, ref, set, get, child } from "firebase/database";
+import { getDatabase, ref, set, child, get } from "firebase/database";
 import { Button } from "../Controls/Button";
 import { Input } from "../Controls/Input";
 import { generateID } from "../../utils/utils";
 import { User } from "../Controls/User";
-import { addUser, saveQuestions } from "../store/actions";
+import { saveQuestions } from "../store/actions";
 import { QuizItem } from "../QuizItem";
 import "./AdminPanel.styles.css";
 import { ROUTES } from "../../routes/routes";
@@ -24,22 +24,6 @@ export const AdminPanel = () => {
     const [answer3, setAnswer3] = useState<string>("");
     const [rightAnswerId, setRightAnswerId] = useState<string>("");
     const db = getDatabase();
-
-    useEffect(() => {
-        const dbRef = ref(getDatabase());
-        get(child(dbRef, "users"))
-            .then((snapshot) => {
-                if (snapshot.exists()) {
-                    const user = Object.values(snapshot.val());
-                    dispatch(addUser(user));
-                } else {
-                    alert("No data available");
-                }
-            })
-            .catch((error) => {
-                alert(`${error}`);
-            });
-    }, []);
 
     useEffect(() => {
         const dbRef = ref(getDatabase());
@@ -87,6 +71,7 @@ export const AdminPanel = () => {
             rightAnswerId: `${questions.length}${rightAnswerId}`
         };
         if (questionText.trim() && answer1.trim() && answer2.trim() && answer3.trim() && rightAnswerId.trim()) {
+            if (Number(rightAnswerId) < 4 && Number(rightAnswerId) > 0) {
             (set(ref(db, `questions/${questions.length}`), question));
             dispatch(saveQuestions([...questions, question]));
             setQuestionText("");
@@ -96,8 +81,11 @@ export const AdminPanel = () => {
             setRightAnswerId("");
             alert("Вопрос успешно добавлен!");
         } else {
+            alert ("Номер правильного ответа должен быть от 1 до 3")
+        }    
+        } else {
             alert("Заполните все поля");
-        }
+    }
     };
 
     const deleteQuestionHandler = (e: React.MouseEvent<HTMLButtonElement>): void => {
@@ -122,7 +110,6 @@ export const AdminPanel = () => {
     const editAnswerHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const inputValue = e.target.value;
         const inputId = e.target.id;
-        console.log(e.target.value);
         if (inputValue.trim()) {
             const changedAnswer = questions.map(item => {
                 item.answers.map(answer => {
@@ -169,7 +156,7 @@ export const AdminPanel = () => {
                         {users && users.map(item => {
                             return (
                                 <User
-                                    key={item.email}
+                                    key={item.id}
                                     email={item.email}
                                     highestScore={item.highestScore}
                                     className="user"

@@ -1,4 +1,4 @@
-import { CHANGE_USER_EMAIL, CHANGE_PASSWORD, CHANGE_VERIFICATION_PASSWORD, SAVE_QUESTIONS, ADD_USER, CREATE_RADIO_LIST } from "../constants";
+import { CHANGE_USER_EMAIL, CHANGE_PASSWORD, CHANGE_VERIFICATION_PASSWORD, SAVE_QUESTIONS, ADD_USER, CREATE_ANSWER_LIST } from "../constants";
 
 export const addUser = (object: object):object => {
     return {
@@ -7,10 +7,10 @@ export const addUser = (object: object):object => {
     };
 };
 
-export const changePassword = (text: string):object => {
+export const changePassword = (string: string):object => {
     return {
         type: CHANGE_PASSWORD,
-        payload: text,
+        payload: string,
     };
 };
 
@@ -21,16 +21,16 @@ export const changeUserEmail = (string: string):object => {
     };
 };
 
-export const changeVerificationPassword = (text: string):object => {
+export const changeVerificationPassword = (string: string):object => {
     return {
         type: CHANGE_VERIFICATION_PASSWORD,
-        payload: text,
+        payload: string,
     };
 };
 
-export const createRadioList = (object: object):object => {
+export const createAnswerList = (object: object):object => {
     return {
-        type: CREATE_RADIO_LIST,
+        type: CREATE_ANSWER_LIST,
         payload: object,
     };
 };
@@ -41,4 +41,3 @@ export const saveQuestions = (object: object):object => {
         payload: object,
     };
 };
-

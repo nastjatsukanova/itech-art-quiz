@@ -1,5 +1,5 @@
 import { child, get, getDatabase, ref, set } from "firebase/database";
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/routes";
@@ -15,17 +15,20 @@ export const ScorePage = () => {
     const navigate = useNavigate();
     const users = useSelector((state:IState) => state.users);
     const userEmail = useSelector((state: IState) => state.userEmail);
-    const radioList = useSelector((state:IState) => state.radioList);
+    const answersList = useSelector((state:IState) => state.answersList);
     const db = getDatabase();
-
-    const arrayOfRadio = Array.prototype.slice.call(radioList);
-    const userAnswers = arrayOfRadio.filter(item => item.checked === true).map(item => item.value);
-    const score = userAnswers.filter((item, index) => item === rightAnswers[index]);
+    
+    const score = answersList.reduce((acc, item) => {
+        if(rightAnswers.includes(item)) {
+            return acc += 1
+        }
+        return acc;
+    },0);
 
     useEffect(() => {
         const usersScore = users.map(item => {
-            if (item.email === userEmail && item.highestScore < score.length) {
-                return { ...item, highestScore: score.length };
+            if (item.email === userEmail && item.highestScore < score) {
+                return { ...item, highestScore: score };
             }
             return item;
         }
@@ -34,11 +37,14 @@ export const ScorePage = () => {
         dispatch(addUser(usersScore));
     }, []);
 
-    const turnToQuiz = ():void => navigate(ROUTES.QUIZ_PAGE);
+    const turnToQuiz = ():void =>{
+        navigate(ROUTES.QUIZ_PAGE);
+    } 
 
-    const turnToMainPage = ():void => navigate(ROUTES.MAIN_PAGE);
-
-    useEffect(() => {
+    const turnToMainPage = ():void => {
+        navigate(ROUTES.MAIN_PAGE);
+    }
+    useLayoutEffect(() => {
         const dbRef = ref(getDatabase());
         get(child(dbRef, "questions"))
             .then((snapshot) => {
@@ -55,8 +61,8 @@ export const ScorePage = () => {
 
     return (
         <div className="score_block">
-            <label className="score_text">{`Ваш результат: ${score.length}/${questions.length}`}</label>
-            {(score.length > (rightAnswers.length) / 2)
+            <label className="score_text">{`Ваш результат: ${score}/${questions.length}`}</label>
+            {(score > (rightAnswers.length) / 2)
                 ? <div className="result_text">Отличный результат! Для тебя нужны вопросы посложнее :)</div>
                 : <div className="result_text">Неплохой результат! Можешь пройти квиз заново, чтобы повысить свой счет!</div>}
             <div className="btn_block">

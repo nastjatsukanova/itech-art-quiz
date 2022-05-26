@@ -9,6 +9,7 @@ import { IState } from "../store/reducers/rootReducer";
 import { addUser, changeUserEmail, changePassword, changeVerificationPassword } from "../store/actions";
 import { signUp } from "../../utils/utils";
 import { getDatabase, ref, set } from "firebase/database";
+import { generateID } from "../../utils/utils"
 
 interface ISignUpProps {
     title?: string;
@@ -39,6 +40,7 @@ export const SignUp: React.FC<ISignUpProps> = () => {
     const signUpHandler = ():void => {
         if (password === verificationPassword) {
             const user = {
+                id: generateID(),
                 email: userEmail,
                 role: "USER",
                 highestScore: 0

@@ -1,7 +1,7 @@
 .quiz_item_admin {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 95%;
     margin: 10px;
 }
 
@@ -72,4 +72,16 @@
     font-family: Montserrat;
     margin-top: 10px;
     font-weight: 700;
+}
+
+@media (max-width:800px){
+    .admin_panel{
+        width: 100%;
+    }
+    .quiz {
+        width: 100%;
+    }
+    .add_questions {
+        flex-direction: column;
+    }
 }

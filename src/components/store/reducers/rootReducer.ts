@@ -1,5 +1,4 @@
-import { AnyAction } from "redux";
-import { CHANGE_USER_EMAIL, CHANGE_PASSWORD, CHANGE_VERIFICATION_PASSWORD, SAVE_QUESTIONS, ADD_USER, CREATE_RADIO_LIST } from "../constants";
+import { CHANGE_USER_EMAIL, CHANGE_PASSWORD, CHANGE_VERIFICATION_PASSWORD, SAVE_QUESTIONS, ADD_USER, CREATE_ANSWER_LIST } from "../constants";
 
 export interface IAnswers {
   id: string,
@@ -7,6 +6,7 @@ export interface IAnswers {
 }
 
 interface IUser {
+  id:string;  
   email: string,
   role: string,
   highestScore: number,
@@ -25,42 +25,55 @@ export interface IState {
   verificationPassword:string;
   questions: IQuestions[];
   users: IUser[];
-  radioList:[];
+  answersList:string[];
 }
 
-const initialState: IState = { userEmail: "", password: "", verificationPassword: "", questions: [], users: [], radioList: [] };
+export type Action = {
+    type: string,
+    payload: {
+        users?: IUser[];
+        password?: string;
+        userEmail?: string;
+        verificationPassword?: string;
+        answersList?: Array<string>;
+        questions?: IQuestions[];
+    }
+};
 
-export const rootReducer = (state: IState = initialState, action: AnyAction) => {
-    switch (action.type) {
+
+const initialState: IState = { userEmail: "", password: "", verificationPassword: "", questions: [], users: [], answersList: [] };
+
+export const rootReducer = (state: IState = initialState, {type, payload}: Action) => {
+    switch (type) {
     case CHANGE_USER_EMAIL:
         return {
             ...state,
-            userEmail: action.payload
+            userEmail: payload.userEmail
         };
     case CHANGE_PASSWORD:
         return {
             ...state,
-            password: action.payload
+            password: payload.password
         };
     case CHANGE_VERIFICATION_PASSWORD:
         return {
             ...state,
-            verificationPassword: action.payload
+            verificationPassword: payload.verificationPassword
         };
     case SAVE_QUESTIONS :
         return {
             ...state,
-            questions: action.payload
+            questions: payload.questions
         };
     case ADD_USER :
         return {
             ...state,
-            users: action.payload
+            users: payload.users
         };
-    case CREATE_RADIO_LIST :
+    case CREATE_ANSWER_LIST :
         return {
             ...state,
-            radioList: action.payload
+            answersList: payload.answersList
         };
     default:
         return state;

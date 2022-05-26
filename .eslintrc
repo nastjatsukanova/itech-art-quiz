@@ -25,6 +25,16 @@
         "semi": [2, "always"],
         "quotes": ["error", "double"],
         "indent": ["error", 4],
-        "import/extensions": [ ".tsx", ".ts" ]
-    }
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+              "js": "never",
+              "jsx": "never",
+              "ts": "never",
+              "tsx": "never"
+            }
+         ]
+      }
 }
+

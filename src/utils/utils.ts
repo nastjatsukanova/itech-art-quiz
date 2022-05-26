@@ -3,6 +3,8 @@ import "firebase/compat/firestore";
 import { firebaseConfig } from "../components/store/firebase";
 import firebase from "firebase/compat/app";
 
+
+
 export const signIn = (userEmail: string, password: string) => {
     firebase.initializeApp(firebaseConfig);
     return firebase.auth().signInWithEmailAndPassword(userEmail, password);

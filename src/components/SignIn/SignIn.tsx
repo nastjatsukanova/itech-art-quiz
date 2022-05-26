@@ -6,9 +6,9 @@ import { IState } from "../store/reducers/rootReducer";
 import { changeUserEmail, changePassword, addUser } from "../store/actions";
 import { signIn } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
-import { child, get, getDatabase, ref } from "firebase/database";
 import "./SignIn.styles.css";
 import { ROUTES } from "../../routes/routes";
+import { child, get, getDatabase, ref } from "firebase/database";
 
 export interface ISignInProps {
     title: string;
@@ -28,22 +28,6 @@ export const SignIn: React.FC<ISignInProps> = ({ title }) => {
     const changePasswordHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
         dispatch(changePassword(e.target.value));
     };
-
-    useEffect(() => {
-        const dbRef = ref(getDatabase());
-        get(child(dbRef, "users"))
-            .then((snapshot) => {
-                if (snapshot.exists()) {
-                    const user = Object.values(snapshot.val());
-                    dispatch(addUser(user));
-                } else {
-                    alert("No data available");
-                }
-            })
-            .catch((error) => {
-                alert(`${error}`);
-            });
-    }, []);
 
     const signInHandler = ():void => {
         signIn(userEmail, password)

@@ -1,2 +1,2 @@
-export { changePassword, changeUserEmail, changeVerificationPassword, saveQuestions, addUser, createRadioList } from "./actions";
+export { changePassword, changeUserEmail, changeVerificationPassword, saveQuestions, addUser, createAnswerList } from "./actions";
 
