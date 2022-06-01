@@ -1,0 +1,30 @@
+.score_text {
+    font-size: 25px;
+    font-family: Montserrat;
+    font-weight: 700;
+}
+
+.btn_block {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 15px;
+}
+
+.score_block {
+    margin: 0 auto;
+    width: 80%;
+    margin-top: 20px;
+    border: 1px solid #6686ff;
+    background-color: #f4f7ff;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.result_text {
+    font-size: 20px;
+    font-family: Montserrat;
+    font-weight: 300;
+}
