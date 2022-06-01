@@ -1,4 +1,11 @@
-import { CHANGE_USER_EMAIL, CHANGE_PASSWORD, CHANGE_VERIFICATION_PASSWORD, SAVE_QUESTIONS, ADD_USER, CREATE_ANSWER_LIST } from "../constants";
+import {
+    CHANGE_USER_EMAIL,
+    CHANGE_PASSWORD,
+    CHANGE_VERIFICATION_PASSWORD,
+    SAVE_QUESTIONS,
+    ADD_USER,
+    CREATE_ANSWER_LIST,
+} from "../constants";
 
 export const addUser = (object: object):object => {
     return {

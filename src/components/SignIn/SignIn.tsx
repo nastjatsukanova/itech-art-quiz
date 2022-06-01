@@ -3,13 +3,11 @@ import { Button } from "../Controls/Button";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IState } from "../store/reducers/rootReducer";
-import { changeUserEmail, changePassword, addUser } from "../store/actions";
+import { changeUserEmail, changePassword } from "../store/actions";
 import { signIn } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
-import "./SignIn.styles.css";
 import { ROUTES } from "../../routes/routes";
-import { child, get, getDatabase, ref } from "firebase/database";
-
+import styles from "./SignIn.module.css";
 export interface ISignInProps {
     title: string;
 }
@@ -44,22 +42,22 @@ export const SignIn: React.FC<ISignInProps> = ({ title }) => {
     }, [isSigned]);
 
     return (
-        <div className="sign_in">
+        <div className={styles.sign_in}>
             <Input
                 placeholder="user name"
                 type="text"
                 onChange={changeUserEmailHandler}
                 value={userEmail}
-                className="email_input"
+                className={styles.input}
             />
             <Input
                 type="password"
                 placeholder="password"
                 onChange={changePasswordHandler}
                 value={password}
-                className="password_input"
+                className={styles.input}
             />
-            <Button onClick={signInHandler} title={title} className="btn"/>
+            <Button onClick={signInHandler} title={title} className={styles.btn}/>
         </div>
     );
 };

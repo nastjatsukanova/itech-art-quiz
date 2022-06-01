@@ -8,6 +8,7 @@ import { createAnswerList, saveQuestions } from "../store/actions";
 import { QuizItem } from "../QuizItem/QuizItem";
 import "./QuizPage.styles.css";
 import { ROUTES } from "../../routes/routes";
+import styles from "../SignIn/SignIn.module.css";
 
 
 export const QuizPage = () => {
@@ -63,8 +64,8 @@ export const QuizPage = () => {
     return (
         <div className="quiz_page">
             <div className="admin_buttons">
-                {userEmail === "asd@mail.ru" && <Button title="Админ Панель" onClick={turnToAdmin} className="btn" />}
-                <Button title="Выйти" onClick={turnToMainPage} className="btn"/>
+                {userEmail === "asd@mail.ru" && <Button title="Админ Панель" onClick={turnToAdmin} className={styles.btn} />}
+                <Button title="Выйти" onClick={turnToMainPage} className={styles.btn}/>
             </div>
             <div className="quiz">
                 {questions && questions.map(item => {
@@ -80,7 +81,7 @@ export const QuizPage = () => {
                     );
                 })}
             </div>
-            <Button onClick={turnToScore} title="Получить результат" className="btn" />
+            <Button onClick={turnToScore} title="Получить результат" className={styles.btn} />
         </div>
     );
 };

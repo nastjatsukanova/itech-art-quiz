@@ -1,7 +1,6 @@
 import { Input } from "../Controls/Input";
 import { Button } from "../Controls/Button";
 import React, { useState, useEffect } from "react";
-import "./SignUp.styles.css";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../routes/routes";
 import { useSelector, useDispatch } from "react-redux";
@@ -9,7 +8,9 @@ import { IState } from "../store/reducers/rootReducer";
 import { addUser, changeUserEmail, changePassword, changeVerificationPassword } from "../store/actions";
 import { signUp } from "../../utils/utils";
 import { getDatabase, ref, set } from "firebase/database";
-import { generateID } from "../../utils/utils"
+import { generateID } from "../../utils/utils";
+import styles from "../SignIn/SignIn.module.css";
+import "./SignUp.styles.css";
 
 interface ISignUpProps {
     title?: string;
@@ -69,17 +70,17 @@ export const SignUp: React.FC<ISignUpProps> = () => {
     return (
         <div className="sign_up">
             <label className="signup_label">Email</label>
-            <Input type="email" onChange={changeUserEmailHandler} value={userEmail} className="email_input"/>
+            <Input type="email" onChange={changeUserEmailHandler} value={userEmail} className={styles.input}/>
             <label className="signup_label">Пароль</label>
-            <Input type="password" onChange={changePasswordHandler} value={password} className="password_input" />
+            <Input type="password" onChange={changePasswordHandler} value={password} className={styles.input} />
             <label className="signup_label">Повторите пароль</label>
             <Input
                 type="password"
                 onChange={changeVerificationPasswordHandler}
                 value={verificationPassword}
-                className="password_input"
+                className={styles.input}
             />
-            <Button onClick={signUpHandler} title="Зарегестрироваться" className="btn" />
+            <Button onClick={signUpHandler} title="Зарегестрироваться" className={styles.btn} />
             <Link
                 to={{ pathname: ROUTES.MAIN_PAGE }}
                 className="link"

@@ -8,10 +8,8 @@ import { addUser } from "../store/actions";
 import "./MainPage.styles.css";
 
 export const MainPage = () => {
-    
-const dispatch = useDispatch();
-
-    useEffect(() => {
+    const dispatch = useDispatch();
+    const readUsersFromDB = () => {
         const dbRef = ref(getDatabase());
             get(child(dbRef, "users"))
                 .then((snapshot) => {
@@ -25,6 +23,10 @@ const dispatch = useDispatch();
                 .catch((error) => {
                     alert(`${error}`);
                 });
+    };
+    
+    useEffect(() => {
+        readUsersFromDB();
     }, []);
 
     return (

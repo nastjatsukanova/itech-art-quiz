@@ -11,6 +11,7 @@ import { saveQuestions } from "../store/actions";
 import { QuizItem } from "../QuizItem";
 import "./AdminPanel.styles.css";
 import { ROUTES } from "../../routes/routes";
+import styles from "../SignIn/SignIn.module.css";
 
 export const AdminPanel = () => {
     const dispatch = useDispatch();
@@ -25,7 +26,7 @@ export const AdminPanel = () => {
     const [rightAnswerId, setRightAnswerId] = useState<string>("");
     const db = getDatabase();
 
-    useEffect(() => {
+    const getQuestionsFromDB = () => {
         const dbRef = ref(getDatabase());
         get(child(dbRef, "questions"))
             .then((snapshot) => {
@@ -38,6 +39,10 @@ export const AdminPanel = () => {
             .catch((error) => {
                 alert(`${error}`);
             });
+    }
+
+    useEffect(() => {
+        getQuestionsFromDB();
     }, []);
 
     const changeQuestionText = (e: React.ChangeEvent<HTMLInputElement>): void => setQuestionText(e.target.value);
@@ -131,16 +136,16 @@ export const AdminPanel = () => {
 
     const turnToMainPage = ():void => navigate(ROUTES.MAIN_PAGE);
 
-    // if (userEmail !== "asd@mail.ru") {
-    //     return (
-    //         <div className="error_massage">Not allowed!
-    //             <div className="admin_buttons">
-    //                 <Button title="Вернуться к квизу" onClick={turnToQuiz} className="btn"/>
-    //                 <Button title="Выйти" onClick={turnToMainPage} className="btn" />
-    //             </div>
-    //         </div>
-    //     );
-    // }
+    if (userEmail !== "asd@mail.ru") {
+        return (
+            <div className="error_massage">Not allowed!
+                <div className="admin_buttons">
+                    <Button title="Вернуться к квизу" onClick={turnToQuiz} className={styles.btn}/>
+                    <Button title="Выйти" onClick={turnToMainPage} className={styles.btn} />
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="admin_block">
@@ -151,7 +156,7 @@ export const AdminPanel = () => {
                     <Input type="text" placeholder="Вариант ответа 2" onChange={changeAnswer2} value={answer2} className="admin_input"/>
                     <Input type="text" placeholder="Вариант ответа 3" onChange={changeAnswer3} value={answer3} className="admin_input"/>
                     <Input type="text" placeholder="Номер правильного варианта ответа" onChange={changeRightAnswerId} value={rightAnswerId} className="admin_input"/>
-                    <Button title="Сохранить" onClick={saveOneQuestionHandler} className="btn"/>
+                    <Button title="Сохранить" onClick={saveOneQuestionHandler} className={styles.btn}/>
                     <div className="users"> Список пользователей и их результаты
                         {users && users.map(item => {
                             return (
@@ -185,8 +190,8 @@ export const AdminPanel = () => {
                 </div>
             </div>
             <div className="admin_buttons">
-                <Button title="Вернуться к квизу" onClick={turnToQuiz} className="btn"/>
-                <Button title="Выйти" onClick={turnToMainPage} className="btn"/>
+                <Button title="Вернуться к квизу" onClick={turnToQuiz} className={styles.btn}/>
+                <Button title="Выйти" onClick={turnToMainPage} className={styles.btn}/>
             </div>
         </div>
     );

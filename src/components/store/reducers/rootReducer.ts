@@ -1,4 +1,5 @@
-import { CHANGE_USER_EMAIL, CHANGE_PASSWORD, CHANGE_VERIFICATION_PASSWORD, SAVE_QUESTIONS, ADD_USER, CREATE_ANSWER_LIST } from "../constants";
+import { AnyAction } from "redux";
+import { CHANGE_USER_EMAIL, CHANGE_PASSWORD,CHANGE_VERIFICATION_PASSWORD,SAVE_QUESTIONS,ADD_USER,CREATE_ANSWER_LIST} from "../constants";
 
 export interface IAnswers {
   id: string,
@@ -6,7 +7,7 @@ export interface IAnswers {
 }
 
 interface IUser {
-  id:string;  
+  id:string,
   email: string,
   role: string,
   highestScore: number,
@@ -28,52 +29,51 @@ export interface IState {
   answersList:string[];
 }
 
-export type Action = {
-    type: string,
-    payload: {
-        users?: IUser[];
-        password?: string;
-        userEmail?: string;
-        verificationPassword?: string;
-        answersList?: Array<string>;
-        questions?: IQuestions[];
-    }
-};
-
+// export type Action = {
+//     type: string,
+//     payload: {
+//         users?: IUser[];
+//         password?: string;
+//         userEmail?: string;
+//         verificationPassword?: string;
+//         answersList?: Array<string>;
+//         questions?: IQuestions[];
+//     }
+// };
 
 const initialState: IState = { userEmail: "", password: "", verificationPassword: "", questions: [], users: [], answersList: [] };
 
-export const rootReducer = (state: IState = initialState, {type, payload}: Action) => {
-    switch (type) {
+export const rootReducer = (state: IState = initialState, action: AnyAction, ) => {
+    switch (action.type) {
     case CHANGE_USER_EMAIL:
         return {
             ...state,
-            userEmail: payload.userEmail
+            userEmail: action.payload,
         };
     case CHANGE_PASSWORD:
         return {
             ...state,
-            password: payload.password
+            password: action.payload,
         };
     case CHANGE_VERIFICATION_PASSWORD:
         return {
             ...state,
-            verificationPassword: payload.verificationPassword
+            verificationPassword: action.payload,
         };
-    case SAVE_QUESTIONS :
+    case SAVE_QUESTIONS:
         return {
             ...state,
-            questions: payload.questions
+            questions: action.payload,
         };
-    case ADD_USER :
+    case ADD_USER:
         return {
             ...state,
-            users: payload.users
+            users: action.payload,
         };
-    case CREATE_ANSWER_LIST :
+    case CREATE_ANSWER_LIST:
         return {
             ...state,
-            answersList: payload.answersList
+            answersList: action.payload,
         };
     default:
         return state;

@@ -5,8 +5,7 @@
     },
     "extends": [
         "plugin:react/recommended",
-        "airbnb",
-        "@react-native-community"
+        "airbnb"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -22,19 +21,31 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "react/prop-types": 0,
+        "react/require-default-props": 0,
+        "object-curly-newline": "off",
+        "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+        "react/function-component-definition": [
+            2,
+            {
+              "namedComponents": "function-declaration",
+              "unnamedComponents": "function-declaration"
+            }
+          ],
+        "import/prefer-default-export": "off",
+        "arrow-body-style": "off",
         "semi": [2, "always"],
         "quotes": ["error", "double"],
         "indent": ["error", 4],
-        "import/extensions": [
-            "error",
-            "ignorePackages",
-            {
-              "js": "never",
-              "jsx": "never",
-              "ts": "never",
-              "tsx": "never"
-            }
-         ]
+        "import/extensions":  [
+                "error",
+                "ignorePackages",
+                {
+                  "js": "never",
+                  "jsx": "never",
+                  "ts": "never",
+                  "tsx": "never"
+                }
+             ]
       }
 }
-

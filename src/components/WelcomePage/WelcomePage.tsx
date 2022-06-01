@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../Controls/Button";
 import { ROUTES } from "../../routes/routes";
 import "./WelcomePage.styles.css";
+import styles from "../SignIn/SignIn.module.css";
 
 export const WelcomePage = () => {
     const [isSigned, setIsSigned] = useState<boolean>(false);
@@ -29,8 +30,8 @@ export const WelcomePage = () => {
                     Удачи!
                 </div>
                 <div className="btn_block">
-                    <Button title="Перейти к квизу" onClick={userIsSigned} className="btn"/>
-                    <Button title="Выйти" onClick={turnToMainPage} className="btn"/>
+                    <Button title="Перейти к квизу" onClick={userIsSigned} className={styles.btn}/>
+                    <Button title="Выйти" onClick={turnToMainPage} className={styles.btn}/>
                 </div> 
             </div>
         </div>

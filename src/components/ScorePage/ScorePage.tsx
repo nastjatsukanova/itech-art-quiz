@@ -7,6 +7,7 @@ import { Button } from "../Controls/Button";
 import { saveQuestions, addUser } from "../store/actions";
 import { IState } from "../store/reducers/rootReducer";
 import "./ScorePage.styles.css";
+import styles from "../SignIn/SignIn.module.css";
 
 export const ScorePage = () => {
     const questions = useSelector((state:IState) => state.questions);
@@ -44,7 +45,8 @@ export const ScorePage = () => {
     const turnToMainPage = ():void => {
         navigate(ROUTES.MAIN_PAGE);
     }
-    useLayoutEffect(() => {
+
+    const getQuestionsFromDB = () => {
         const dbRef = ref(getDatabase());
         get(child(dbRef, "questions"))
             .then((snapshot) => {
@@ -57,6 +59,9 @@ export const ScorePage = () => {
             .catch((error) => {
                 alert(`${error}`);
             });
+    }
+    useLayoutEffect(() => {
+        getQuestionsFromDB();
     }, []);
 
     return (
@@ -66,8 +71,8 @@ export const ScorePage = () => {
                 ? <div className="result_text">Отличный результат! Для тебя нужны вопросы посложнее :)</div>
                 : <div className="result_text">Неплохой результат! Можешь пройти квиз заново, чтобы повысить свой счет!</div>}
             <div className="btn_block">
-                <Button title="Пройти заново" onClick={turnToQuiz} className="btn"/>
-                <Button title="Выйти" onClick={turnToMainPage} className="btn"/>
+                <Button title="Пройти заново" onClick={turnToQuiz} className={styles.btn}/>
+                <Button title="Выйти" onClick={turnToMainPage} className={styles.btn}/>
             </div>
         </div>
     );
